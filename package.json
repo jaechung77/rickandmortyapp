@@ -39,6 +39,7 @@
     ]
   },
   "devDependencies": {
+    "babel-plugin-graphql-tag": "^3.3.0",
     "sass": "^1.77.8"
   }
 }

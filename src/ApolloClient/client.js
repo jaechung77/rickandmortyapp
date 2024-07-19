@@ -9,7 +9,7 @@ import { HttpLink } from 'apollo-link-http';
 // });
 
 const httpLink = new HttpLink({
-  uri: 'https://rickandmortyapi.com/',
+  uri: 'https://rickandmortyapi.com/graphql',
 });
 
 export const client = new ApolloClient({
