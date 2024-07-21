@@ -8,6 +8,27 @@ function List() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleClick = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const { data } = await client.query({
+        query: CHARACTERS,
+        variables: { page, name: searchTerm },
+      });
+      setData(data);
+    } catch (err) {
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,7 +37,7 @@ function List() {
       try {
         const { data } = await client.query({
           query: CHARACTERS,
-          variables: { page },
+          variables: { page, name: searchTerm },
         });
         setData(data);
       } catch (err) {
@@ -39,12 +60,20 @@ function List() {
 
   return (
     <>
+      <input
+        type="text"
+        placeholder="Search characters"
+        value={searchTerm}
+        onChange={handleSearchChange}
+      />
+      {console.log(searchTerm)}
+      <button onClick={handleClick}>Search</button>
       {data?.characters?.results?.map((res) => (
         <div key={res.id}>
           <p>name: {res.name}</p>
         </div>
       ))}
-      {console.log(page)}
+
       {page > 1 && (
         <button onClick={() => setPage((prevPage) => prevPage - 1)}>
           Prev Page
