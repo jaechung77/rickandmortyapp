@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useApolloClient } from '@apollo/client';
 import { CHARACTERS } from '../../graphql/characters';
+import { Link } from 'react-router-dom';
 
 function List() {
   const client = useApolloClient();
@@ -70,7 +71,10 @@ function List() {
       <button onClick={handleClick}>Search</button>
       {data?.characters?.results?.map((res) => (
         <div key={res.id}>
-          <p>name: {res.name}</p>
+          <p>
+            name:
+            <Link to={`/detail/${res.id}`}>{res.name}</Link>
+          </p>
         </div>
       ))}
 
